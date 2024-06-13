@@ -15,7 +15,7 @@
       </a>
       <ul id="arisan-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=kelola_arisan'; ?>">
+          <a href="<?= $_SERVER['PHP_SELF'] . '?u=data-kelompok'; ?>">
             <i class="bi bi-circle"></i><span>Data Kelompok</span>
           </a>
         </li>
@@ -30,8 +30,13 @@
           </a>
         </li>
         <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=data_peserta'; ?>">
+          <a href="<?= $_SERVER['PHP_SELF'] . '?u=data-peserta'; ?>">
             <i class="bi bi-circle"></i><span>Data Peserta</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?= $_SERVER['PHP_SELF'] . '?u=data-pengguna'; ?>">
+            <i class="bi bi-circle"></i><span>Data Pengguna</span>
           </a>
         </li>
       </ul>

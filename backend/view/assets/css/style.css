@@ -9,6 +9,21 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
+.btn-brand-primary{
+  color: white!important;
+  background-color: #2f8ea6!important;
+}
+
+.btn-brand-primary:hover{
+  color: white!important;
+  background-color: #48a4bc!important;
+}
+
+.brand-primary{
+  color: #2f8ea6!important;
+}
+
 :root {
   scroll-behavior: smooth;
 }

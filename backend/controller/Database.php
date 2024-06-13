@@ -2,7 +2,7 @@
 $host="localhost";
 $user="root";
 $pass="";
-$database="inventory_mrp";
+$database="arisan_online";
 
 $conn = new mysqli($host,$user,$pass,$database);
 

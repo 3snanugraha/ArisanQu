@@ -93,72 +93,224 @@ function Logout(){
 
 
 // =========================
-// Customer Function
+// Group Function
 // =========================
 
-// Fungsi Tambah Customer
-function tambahCustomer($customer_name, $customer_address, $customer_phone){
+// Fungsi Tambah Group
+function tambahKelompok($name, $description){
     include "Database.php";
 
     // Masukkan data ke database
     $created_at = date('Y-m-d H:i:s');
-    $query_insert = mysqli_query($conn, "INSERT INTO customer (customer_name, customer_address, customer_phone, created_at) VALUES ('$customer_name', '$customer_address', '$customer_phone', '$created_at')");
+    $query_insert = mysqli_query($conn, "INSERT INTO groups (name, description) VALUES ('$name', '$description')");
     if (!$query_insert) {
         die("Query error: " . mysqli_error($conn));
     } else {
-        echo "<script>window.location='$_SERVER[PHP_SELF]?u=customers';</script>";
+        echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-kelompok';</script>";
         exit;
     }
 }
 
-// Fungsi Ambil Data Customer
-function getDataCustomer(){
+// Fungsi Ambil Data Group
+function getDataKelompok(){
     include "Database.php";
-    $result = mysqli_query($conn, "SELECT * FROM customer");
+    $result = mysqli_query($conn, "SELECT * FROM groups");
     if (!$result) {
         die("Query error: " . mysqli_error($conn));
     }
 
     $array = [];
-    while ($customer = mysqli_fetch_array($result)) {
-        $array[] = $customer;
+    while ($group = mysqli_fetch_array($result)) {
+        $array[] = $group;
     }
     return $array;
 }
 
-// Fungsi Edit Customer
-function editCustomer($conn, $customer_id, $customer_name, $customer_address, $customer_phone) {
-    $query = mysqli_prepare($conn, "UPDATE customer SET customer_name=?, customer_address=?, customer_phone=? WHERE customer_id=?");
-    mysqli_stmt_bind_param($query, 'sssi', $customer_name, $customer_address, $customer_phone, $customer_id);
+// Fungsi Edit Group
+function editKelompok($id, $name, $description) {
+    include "Database.php";
+    $query = mysqli_prepare($conn, "UPDATE groups SET name=?, description=? WHERE id=?");
+    mysqli_stmt_bind_param($query, 'ssi', $name, $description, $id);
     mysqli_stmt_execute($query);
     mysqli_stmt_close($query);
     mysqli_close($conn);
-    echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-customer';</script>";
+    echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-kelompok';</script>";
     exit;
 }
 
-// Fungsi Hapus Customer
-function hapusCustomer($customer_id){
+// Fungsi Hapus Group
+function hapusKelompok($id){
     include "Database.php";
-    $query = mysqli_query($conn, "DELETE FROM customer WHERE customer_id='$customer_id'");
+    $query = mysqli_query($conn, "DELETE FROM groups WHERE id='$id'");
     if (!$query) {
         die("Query error: " . mysqli_error($conn));
     } else {
-        echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-customer';</script>";
+        echo "<script>alert('Berhasil dihapus');window.location='$_SERVER[PHP_SELF]?u=data-kelompok';</script>";
         exit;
     }
 }
 
-// Fungsi Hitung Jumlah Baris Customer
-function countRowsCustomer(){
+// Fungsi Hitung Jumlah Baris Group
+function countRowsKelompok(){
     include "Database.php";
-    $result = mysqli_query($conn, "SELECT COUNT(*) AS total_rows FROM customer");
+    $result = mysqli_query($conn, "SELECT COUNT(*) AS total_rows FROM groups");
     if (!$result) {
         die("Query error: " . mysqli_error($conn));
     }
     $row = mysqli_fetch_assoc($result);
     return $row['total_rows'];
 }
+
+// =========================
+// Participant Functions
+// =========================
+
+// Fungsi Tambah Peserta
+function tambahPeserta($user_id, $group_id, $join_date, $status){
+    include "Database.php";
+
+    // Masukkan data ke database
+    $query_insert = mysqli_query($conn, "INSERT INTO participants (user_id, group_id, join_date, status) VALUES ('$user_id', '$group_id', '$join_date', '$status')");
+    if (!$query_insert) {
+        die("Query error: " . mysqli_error($conn));
+    } else {
+        echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-peserta';</script>";
+        exit;
+    }
+}
+
+// Fungsi Ambil Data Peserta
+function getDataPeserta(){
+    include "Database.php";
+    $result = mysqli_query($conn, "SELECT * FROM participants");
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    $array = [];
+    while ($participant = mysqli_fetch_array($result)) {
+        $array[] = $participant;
+    }
+    return $array;
+}
+
+// Fungsi Edit Peserta
+function editPeserta($id, $user_id, $group_id, $join_date, $status) {
+    include "Database.php";
+    $query = mysqli_prepare($conn, "UPDATE participants SET user_id=?, group_id=?, join_date=?, status=? WHERE id=?");
+    mysqli_stmt_bind_param($query, 'iissi', $user_id, $group_id, $join_date, $status, $id);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_close($query);
+    mysqli_close($conn);
+    echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-peserta';</script>";
+    exit;
+}
+
+// Fungsi Hapus Peserta
+function hapusPeserta($id){
+    include "Database.php";
+    $query = mysqli_query($conn, "DELETE FROM participants WHERE id='$id'");
+    if (!$query) {
+        die("Query error: " . mysqli_error($conn));
+    } else {
+        echo "<script>alert('Berhasil dihapus');window.location='$_SERVER[PHP_SELF]?u=data-peserta';</script>";
+        exit;
+    }
+}
+
+// Fungsi Hitung Jumlah Baris Peserta
+function countRowsPeserta(){
+    include "Database.php";
+    $result = mysqli_query($conn, "SELECT COUNT(*) AS total_rows FROM participants");
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+    $row = mysqli_fetch_assoc($result);
+    return $row['total_rows'];
+}
+
+
+// =========================
+// User Functions
+// =========================
+
+// Fungsi Tambah Pengguna
+function tambahPengguna($name, $username, $password, $email, $phone){
+    include "Database.php";
+
+    // Enkripsi password
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+    // Masukkan data ke database
+    $created_at = date('Y-m-d H:i:s');
+    $query_insert = mysqli_query($conn, "INSERT INTO users (name, username, password, email, phone, created_at) VALUES ('$name', '$username', '$hashed_password', '$email', '$phone', '$created_at')");
+    if (!$query_insert) {
+        die("Query error: " . mysqli_error($conn));
+    } else {
+        echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-pengguna';</script>";
+        exit;
+    }
+}
+
+// Fungsi Ambil Data Pengguna
+function getDataPengguna(){
+    include "Database.php";
+    $result = mysqli_query($conn, "SELECT * FROM users");
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    $array = [];
+    while ($user = mysqli_fetch_array($result)) {
+        $array[] = $user;
+    }
+    return $array;
+}
+
+// Fungsi Edit Pengguna
+function editPengguna($id, $name, $username, $password, $email, $phone) {
+    include "Database.php";
+
+    // Enkripsi password jika diberikan
+    if(!empty($password)) {
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $query = mysqli_prepare($conn, "UPDATE users SET name=?, username=?, password=?, email=?, phone=? WHERE id=?");
+        mysqli_stmt_bind_param($query, 'sssssi', $name, $username, $hashed_password, $email, $phone, $id);
+    } else {
+        $query = mysqli_prepare($conn, "UPDATE users SET name=?, username=?, email=?, phone=? WHERE id=?");
+        mysqli_stmt_bind_param($query, 'ssssi', $name, $username, $email, $phone, $id);
+    }
+
+    mysqli_stmt_execute($query);
+    mysqli_stmt_close($query);
+    mysqli_close($conn);
+    echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-pengguna';</script>";
+    exit;
+}
+
+// Fungsi Hapus Pengguna
+function hapusPengguna($id){
+    include "Database.php";
+    $query = mysqli_query($conn, "DELETE FROM users WHERE id='$id'");
+    if (!$query) {
+        die("Query error: " . mysqli_error($conn));
+    } else {
+        echo "<script>alert('Berhasil dihapus');window.location='$_SERVER[PHP_SELF]?u=data-pengguna';</script>";
+        exit;
+    }
+}
+
+// Fungsi Hitung Jumlah Baris Pengguna
+function countRowsPengguna(){
+    include "Database.php";
+    $result = mysqli_query($conn, "SELECT COUNT(*) AS total_rows FROM users");
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+    $row = mysqli_fetch_assoc($result);
+    return $row['total_rows'];
+}
+
 
 
 // =========================

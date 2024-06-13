@@ -1,110 +1,137 @@
 <?php
 // Semua Alur diatur disini
 include "Function.php";
+// Error Reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// ======================
-// GET Method Routing
-// ======================
-if(isset($_GET['u'])){
-    // View Login
-    if($_GET['u']=='login'){
-        LoginSessionCheck();
-        include "../view/login.php";
-    } 
-    // Logout
-    if($_GET['u']=='logout'){
-       Logout();
-    } 
-    // View Home
-    else if($_GET['u']=='home'){
-        SessionCheck();
-        include "../view/home.php";
-    } 
-    // View Customers
-    else if($_GET['u']=='customers'){
-        SessionCheck();
-        include "../view/customers.php";
-    } 
-    // View Satuan
-    else if($_GET['u']=='satuan'){
-        SessionCheck();
-        include "../view/satuan.php";
-    }
-    // Hapus Satuan 
-    else if($_GET['u']=='hapus-satuan'){
-        SessionCheck();
-        $id=$_GET['id'];
-        hapusSatuan($id);
-    }
-    // View Material
-    else if($_GET['u']=='material'){
-        SessionCheck();
-        include "../view/material.php";
-    }
-    // Hapus Material 
-    else if ($_GET['u'] == 'hapus-material') {
-        SessionCheck();
-        $material_id = $_GET['id'];
-        hapusMaterial($material_id);
-    }
-
-    // Invalid Link
-    else {
-        echo "<h1 class='text-center'>Maaf fitur belum ada / sedang dimaintenance.</h1>";
-    }
-}else{
-    LoginSessionCheck();
-    include "../view/login.php";
-}
 // ======================
 // POST Method untuk Form
 // ======================
 // Login Handler
 if(isset($_POST['login-admin'])){
     include "Database.php";
-    $username=mysqli_real_escape_string($conn, $_POST['username']);
-    $password=mysqli_real_escape_string($conn, $_POST['password']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
     LoginAdmin($username, $password);
-}
-// Tambah Customer Handler
-if(isset($_POST['tambah-customer'])) {
-    include "Database.php";
-    $customer_name = mysqli_real_escape_string($conn, $_POST['customer_name']);
-    $customer_address = mysqli_real_escape_string($conn, $_POST['customer_address']);
-    $customer_phone = mysqli_real_escape_string($conn, $_POST['customer_phone']);
-    tambahCustomer($customer_name, $customer_address, $customer_phone);
 } 
-// Tambah Satuan Handler
-if(isset($_POST['tambah-satuan'])) {
+// Tambah Grup Handler
+else if (isset($_POST['tambahgrup'])) {
     include "Database.php";
-    $satuan_name = mysqli_real_escape_string($conn, $_POST['satuan_name']);
-    tambahSatuan($satuan_name);
+    $group_name = mysqli_real_escape_string($conn, $_POST['group_name']);
+    $group_description = mysqli_real_escape_string($conn, $_POST['group_description']);
+    tambahKelompok($group_name, $group_description);
+} 
+// Edit Kelompok Handler
+else if (isset($_POST['edit-kelompok'])) {
+    include "Database.php";
+    $group_id = mysqli_real_escape_string($conn, $_POST['kelompok_id']);
+    $group_name = mysqli_real_escape_string($conn, $_POST['kelompok_name']);
+    $group_description = mysqli_real_escape_string($conn, $_POST['kelompok_description']);
+    editKelompok($group_id, $group_name, $group_description);
 }
-// Edit Satuan Handler
-if(isset($_POST['edit-satuan'])) {
+// Tambah Peserta Handler
+else if (isset($_POST['tambahpeserta'])) {
+    $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
+    $group_id = mysqli_real_escape_string($conn, $_POST['group_id']);
+    $join_date = mysqli_real_escape_string($conn, $_POST['join_date']);
+    $status = mysqli_real_escape_string($conn, $_POST['status']);
+    tambahPeserta($user_id, $group_id, $join_date, $status);
+} 
+// Tambah Pengguna Handler
+else if (isset($_POST['tambah-pengguna'])) {
     include "Database.php";
-    $satuan_id = mysqli_real_escape_string($conn, $_POST['satuan_id']);
-    $satuan_name = mysqli_real_escape_string($conn, $_POST['satuan_name']);
-    editSatuan($satuan_id,$satuan_name);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    tambahPengguna($name, $username, $password, $email, $phone);
+}
+// Edit Pengguna Handler
+else if (isset($_POST['edit-pengguna'])) {
+    include "Database.php";
+    $id = mysqli_real_escape_string($conn, $_POST['pengguna_id']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    editPengguna($id, $name, $username, $password, $email, $phone);
 }
 
-// Tambah Material Handler
-if (isset($_POST['tambah-material'])) {
-    include "Database.php";
-    $material_name = mysqli_real_escape_string($conn, $_POST['material_name']);
-    $satuan_id = mysqli_real_escape_string($conn, $_POST['satuan_id']);
-    $stock = mysqli_real_escape_string($conn, $_POST['stock']);
-    tambahMaterial($material_name, $satuan_id, $stock);
+// ======================
+// GET Method Routing
+// ======================
+if (isset($_GET['u'])) {
+    switch ($_GET['u']) {
+        // View Login
+        case 'login':
+            LoginSessionCheck();
+            include "../view/login.php";
+            break;
+
+        // Logout
+        case 'logout':
+            Logout();
+            break;
+
+        // View Home
+        case 'home':
+            SessionCheck();
+            include "../view/home.php";
+            break;
+
+        // View Kelompok
+        case 'data-kelompok':
+            SessionCheck();
+            include "../view/data-kelompok.php";
+            break;
+
+        // Hapus Kelompok
+        case 'hapus-kelompok':
+            SessionCheck();
+            $id = $_GET['id'];
+            hapusKelompok($id);
+            break;
+
+        
+        // View Data Peserta
+        case 'data-peserta':
+            SessionCheck();
+            include "../view/data-peserta.php";
+            break;
+
+        // Hapus Peserta
+        case 'hapus-peserta':
+            SessionCheck();
+            $id = $_GET['id'];
+            hapusPeserta($id);
+            break;
+
+        // View Data Pengguna
+        case 'data-pengguna':
+            SessionCheck();
+            include "../view/data-pengguna.php";
+            break;
+
+        // Hapus Pengguna
+        case 'hapus-pengguna':
+            SessionCheck();
+            $id = $_GET['id'];
+            hapusPengguna($id);
+            break;
+
+        // Invalid Link
+        default:
+            echo "<h3 class='text-center'>Maaf fitur belum ada / sedang dimaintenance.</h3>";
+            break;
+    }
+} else {
+    LoginSessionCheck();
+    include "../view/login.php";
 }
 
-// Edit Material Handler
-if (isset($_POST['edit-material'])) {
-    include "Database.php";
-    $material_id = mysqli_real_escape_string($conn, $_POST['material_id']);
-    $material_name = mysqli_real_escape_string($conn, $_POST['material_name']);
-    $satuan_id = mysqli_real_escape_string($conn, $_POST['satuan_id']);
-    $stock = mysqli_real_escape_string($conn, $_POST['stock']);
-    $created_at = mysqli_real_escape_string($conn, $_POST['created_at']);
-    editMaterial($material_id, $material_name, $satuan_id, $stock, $created_at);
-}
+
 ?>

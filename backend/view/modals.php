@@ -1,79 +1,15 @@
-<!-- Modal Tambah Data Material -->
-<div class="modal fade" id="tambah-data-material" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Tambah Data Group -->
+<div class="modal fade" id="tambah-data-group" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Material</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post">
-          <div class="d-flex justify-content-center">
-            <img class="img-fluid" width="120px" src="../view/assets/img/material.png" rel="icon">
-          </div>
-
-          <h6 class="text-center">Silahkan isi data dengan lengkap di bawah ini. </h6>
-          <hr>
-
-          <div class="row mt-2">
-            <div class="col-3">
-              <label for="material_name">Nama Material</label>
-            </div>
-            <div class="col-9">
-              <input type="text" class="form-control rounded-pill" name="material_name" required>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-3">
-              <label for="satuan_id">ID Satuan</label>
-            </div>
-            <div class="col-9">
-              <select name="satuan_id" class="form-select rounded-pill" required>
-              <option value="">-- Pilih Satuan --</option>
-              <?php 
-              $data_satuan=getDataSatuan();
-              foreach($data_satuan as $fetch_satuan){
-              ?>
-              <option value="<?= $fetch_satuan['satuan_id'];?>"><?= "#" . $fetch_satuan['satuan_id'] . " - " . $fetch_satuan['satuan_name'];?></option>
-              <?php } ?>
-              </select>
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col-3">
-              <label for="stock">Stock</label>
-            </div>
-            <div class="col-9">
-              <input type="number" class="form-control rounded-pill" name="stock" required>
-            </div>
-          </div>
-
-      </div>
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
-         <button class="btn btn-primary rounded-pill" type="submit" name="tambah-material">Simpan</button>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End modal -->
-
-
-<!-- Modal Tambah Data Satuan -->
-<div class="modal fade" id="tambah-data-satuan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Satuan</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Group</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form method="POST">
           <div class="d-flex justify-content-center">
-            <img class="img-fluid" width="120px" src="../view/assets/img/material.png" rel="icon">
+            <img class="img-fluid" width="120px" src="../view/assets/img/group.svg" rel="icon">
           </div>
 
           <h6 class="text-center">Silahkan isi data dengan lengkap di bawah ini. </h6>
@@ -81,20 +17,171 @@
 
           <div class="row mt-2">
             <div class="col-3">
-              <label for="satuan_name">Nama Satuan</label>
+              <label for="group_name">Nama Group</label>
             </div>
             <div class="col-9">
-              <input type="text" class="form-control rounded-pill" name="satuan_name" required>
+              <input type="text" class="form-control rounded-pill" name="group_name" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="group_description">Deskripsi</label>
+            </div>
+            <div class="col-9">
+              <textarea class="form-control rounded-pill" name="group_description" required></textarea>
             </div>
           </div>
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
-         <button class="btn btn-primary rounded-pill" type="submit" name="tambah-satuan">Simpan</button>
+         <button class="btn btn-brand-primary rounded-pill" type="submit" name="tambahgrup">Simpan</button>
       </form>
       </div>
     </div>
   </div>
 </div>
-<!-- End modal -->
+<!-- End Modal -->
+
+<!-- Modal Tambah Data Peserta -->
+<div class="modal fade" id="tambah-data-participant" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Peserta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="d-flex justify-content-center">
+            <img class="img-fluid" width="120px" src="../view/assets/img/group.svg" rel="icon">
+          </div>
+
+          <h6 class="text-center">Silahkan isi data dengan lengkap di bawah ini. </h6>
+          <hr>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="user_id">ID Pengguna</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="user_id" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="group_id">ID Kelompok</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="group_id" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="join_date">Tanggal Bergabung</label>
+            </div>
+            <div class="col-9">
+              <input type="date" class="form-control rounded-pill" name="join_date" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="status">Status</label>
+            </div>
+            <div class="col-9">
+              <select class="form-control rounded-pill" name="status" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
+        <button class="btn btn-brand-primary rounded-pill" type="submit" name="tambahpeserta">Simpan</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal Tambah Data Peserta -->
+
+<!-- Modal Tambah Data Pengguna -->
+<div class="modal fade" id="tambah-data-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Pengguna</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="d-flex justify-content-center">
+            <img class="img-fluid" width="120px" src="../view/assets/img/group.svg" rel="icon">
+          </div>
+
+          <h6 class="text-center">Silahkan isi data dengan lengkap di bawah ini. </h6>
+          <hr>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="name">Nama Lengkap</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="name" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="username">Username</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="username" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="password">Password</label>
+            </div>
+            <div class="col-9">
+              <input type="password" class="form-control rounded-pill" name="password" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="email">Email</label>
+            </div>
+            <div class="col-9">
+              <input type="email" class="form-control rounded-pill" name="email" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="phone">Nomor Telepon</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="phone" required>
+            </div>
+          </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
+        <button class="btn btn-brand-primary rounded-pill" type="submit" name="tambah-pengguna">Simpan</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal Tambah Data Pengguna -->
+
+
