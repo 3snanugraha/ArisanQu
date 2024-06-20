@@ -66,16 +66,8 @@
         <i class="bi bi-person-circle"></i><span>Akun</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="akun-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=profil'; ?>">
-            <i class="bi bi-circle"></i><span>Profil</span>
-          </a>
-        </li>
-        <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=pengaturan'; ?>">
-            <i class="bi bi-circle"></i><span>Pengaturan</span>
-          </a>
-        </li>
+       
+       
         <li>
           <a href="<?= $_SERVER['PHP_SELF'] . '?u=logout'; ?>">
             <i class="bi bi-circle"></i><span>Logout</span>
