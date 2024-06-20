@@ -82,6 +82,12 @@ if (isset($_GET['u'])) {
             SessionCheck();
             include "../view/home.php";
             break;
+            
+        // View Home
+        case 'hasil_undian':
+            SessionCheck();
+            include "../view/undian.php";
+            break;
 
         // View Kelompok
         case 'data-kelompok':
@@ -102,6 +108,13 @@ if (isset($_GET['u'])) {
             SessionCheck();
             include "../view/data-peserta.php";
             break;
+        // View Data Peserta
+        case 'pembayaran':
+            SessionCheck();
+            include "../view/transaksi.php";
+            break;
+
+            
 
         // Hapus Peserta
         case 'hapus-peserta':

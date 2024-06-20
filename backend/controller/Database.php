@@ -2,7 +2,7 @@
 $host="localhost";
 $user="root";
 $pass="";
-$database="arisan_online";
+$database="arisanku";
 
 $conn = new mysqli($host,$user,$pass,$database);
 
