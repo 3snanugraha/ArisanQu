@@ -19,11 +19,7 @@
             <i class="bi bi-circle"></i><span>Data Kelompok</span>
           </a>
         </li>
-        <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=jadwal_arisan'; ?>">
-            <i class="bi bi-circle"></i><span>Jadwal Arisan</span>
-          </a>
-        </li>
+        
         <li>
           <a href="<?= $_SERVER['PHP_SELF'] . '?u=hasil_undian'; ?>">
             <i class="bi bi-circle"></i><span>Hasil Undian</span>
@@ -52,11 +48,7 @@
             <i class="bi bi-circle"></i><span>Pembayaran</span>
           </a>
         </li>
-        <li>
-          <a href="<?= $_SERVER['PHP_SELF'] . '?u=riwayat_transaksi'; ?>">
-            <i class="bi bi-circle"></i><span>Riwayat Transaksi</span>
-          </a>
-        </li>
+      
       </ul>
     </li>
     <!-- End Transaksi Nav -->

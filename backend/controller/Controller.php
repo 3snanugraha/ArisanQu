@@ -21,7 +21,8 @@ else if (isset($_POST['tambahgrup'])) {
     include "Database.php";
     $group_name = mysqli_real_escape_string($conn, $_POST['group_name']);
     $group_description = mysqli_real_escape_string($conn, $_POST['group_description']);
-    tambahKelompok($group_name, $group_description);
+    $total = mysqli_real_escape_string($conn, $_POST['total']);
+    tambahKelompok($group_name, $group_description , $total);
 } 
 // Edit Kelompok Handler
 else if (isset($_POST['edit-kelompok'])) {
@@ -33,11 +34,13 @@ else if (isset($_POST['edit-kelompok'])) {
 }
 // Tambah Peserta Handler
 else if (isset($_POST['tambahpeserta'])) {
+    include "Database.php";
     $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
     $group_id = mysqli_real_escape_string($conn, $_POST['group_id']);
     $join_date = mysqli_real_escape_string($conn, $_POST['join_date']);
     $status = mysqli_real_escape_string($conn, $_POST['status']);
-    tambahPeserta($user_id, $group_id, $join_date, $status);
+    $total = mysqli_real_escape_string($conn, $_POST['total']);
+    tambahPeserta($user_id, $group_id, $join_date, $status, $total);
 } 
 // Tambah Pengguna Handler
 else if (isset($_POST['tambah-pengguna'])) {
@@ -60,6 +63,15 @@ else if (isset($_POST['edit-pengguna'])) {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     editPengguna($id, $name, $username, $password, $email, $phone);
 }
+
+else if (isset($_POST['tambahtranskasi'])) {
+    $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
+    $group_id = mysqli_real_escape_string($conn, $_POST['group_id']);
+    $join_date = mysqli_real_escape_string($conn, $_POST['join_date']);
+    $status = mysqli_real_escape_string($conn, $_POST['status']);
+    $total = mysqli_real_escape_string($conn, $_POST['total']);
+    tambahPeserta($user_id, $group_id, $join_date, $status, $total);
+} 
 
 // ======================
 // GET Method Routing
@@ -108,6 +120,7 @@ if (isset($_GET['u'])) {
             SessionCheck();
             include "../view/data-peserta.php";
             break;
+
         // View Data Peserta
         case 'pembayaran':
             SessionCheck();
@@ -146,5 +159,38 @@ if (isset($_GET['u'])) {
     include "../view/login.php";
 }
 
+
+if (isset($_POST['tambah-transaksi'])) {
+    include "Database.php";
+
+    $user_id = $_POST['nama_anggota'];
+    $group_id = $_POST['group_id'];
+    $jumlah = $_POST['jumlah'];
+    $tanggal = $_POST['tanggal'];
+
+    // Tambah transaksi ke database
+    $query = "INSERT INTO transactions (participant_id, arisan_id, amount, transaction_date , status) VALUES ('$user_id', '$group_id', '$jumlah', '$tanggal' , 'paid')";
+    if (mysqli_query($conn, $query)) {
+        // Kurangi total dari tabel users
+        $query_update_total = "UPDATE participants SET total = total - '$jumlah' WHERE id = '$user_id'";
+        if (mysqli_query($conn, $query_update_total)) {
+            // Periksa jika total pengguna sudah 0 atau kurang, dan update status jika perlu
+            $query_check_total = "SELECT * FROM participants WHERE user_id = '$user_id' and group_id = '$group_id' ";
+            $result = mysqli_query($conn, $query_check_total);
+            if ($result) {
+                $row = mysqli_fetch_assoc($result);
+                if (($row['total'] - $jumlah) <= 0) {
+                    $query_update_status = "UPDATE participants SET status = 'inactive' WHERE id = '$user_id'";
+                    mysqli_query($conn, $query_update_status);
+                }
+            }
+            echo "Transaksi berhasil ditambahkan dan total pengguna diperbarui.";
+        } else {
+            echo "Error updating total: " . mysqli_error($conn);
+        }
+    } else {
+        echo "Error adding transaction: " . mysqli_error($conn);
+    }
+}
 
 ?>

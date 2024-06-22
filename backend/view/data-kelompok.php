@@ -77,6 +77,7 @@
                     <th scope="col">ID Kelompok</th>
                     <th scope="col">Nama Kelompok</th>
                     <th scope="col">Deskripsi</th>
+                    <th scope="col">Total</th>
                     <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -92,6 +93,7 @@
                     <td><?= $fetch_kelompok['id']; ?></td>
                     <td><?= $fetch_kelompok['name']; ?></td>
                     <td><?= $fetch_kelompok['description']; ?></td>
+                    <td><?= $fetch_kelompok['total']; ?></td>
                     <td>
                         <a href="#" class="btn btn-sm btn-outline-warning rounded-pill mt-1" data-bs-toggle="modal" data-bs-target="#edit-data-kelompok-<?= $fetch_kelompok['id']; ?>"><i class="bi bi-pencil-square"></i></a>
                         <a onclick="return confirm('Apakah anda yakin akan menghapus data ini?')" href="<?= $_SERVER['PHP_SELF'] . "?u=hapus-kelompok&id=" . $fetch_kelompok['id']; ?>" class="btn btn-sm btn-outline-danger rounded-pill mt-1"><i class="bi bi-trash"></i></a>

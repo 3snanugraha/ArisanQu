@@ -97,12 +97,12 @@ function Logout(){
 // =========================
 
 // Fungsi Tambah Group
-function tambahKelompok($name, $description){
+function tambahKelompok($name, $description , $total){
     include "Database.php";
 
     // Masukkan data ke database
     $created_at = date('Y-m-d H:i:s');
-    $query_insert = mysqli_query($conn, "INSERT INTO groups (name, description) VALUES ('$name', '$description')");
+    $query_insert = mysqli_query($conn, "INSERT INTO groups (name, description ,total) VALUES ('$name', '$description' , $total)");
     if (!$query_insert) {
         die("Query error: " . mysqli_error($conn));
     } else {
@@ -166,18 +166,31 @@ function countRowsKelompok(){
 // =========================
 
 // Fungsi Tambah Peserta
-function tambahPeserta($user_id, $group_id, $join_date, $status){
+function tambahPeserta($user_id, $group_id, $join_date, $status, $total) {
     include "Database.php";
 
-    // Masukkan data ke database
-    $query_insert = mysqli_query($conn, "INSERT INTO participants (user_id, group_id, join_date, status) VALUES ('$user_id', '$group_id', '$join_date', '$status')");
-    if (!$query_insert) {
-        die("Query error: " . mysqli_error($conn));
-    } else {
+    // Use a prepared statement to securely insert data
+    $stmt = $conn->prepare("INSERT INTO participants (user_id, group_id, join_date, status, total) VALUES (?, ?, ?, ?, ?)");
+    
+    if (!$stmt) {
+        die("Error preparing statement: " . $conn->error);
+    }
+
+    // Bind parameters to the prepared statement
+    $stmt->bind_param("iissi", $user_id, $group_id, $join_date, $status, $total);
+
+    // Execute the statement
+    if ($stmt->execute()) {
         echo "<script>window.location='$_SERVER[PHP_SELF]?u=data-peserta';</script>";
         exit;
+    } else {
+        die("Query error: " . $stmt->error);
     }
+
+    // Close the statement
+    $stmt->close();
 }
+
 
 // Fungsi Ambil Data Peserta
 function getDataPeserta(){
@@ -193,6 +206,8 @@ function getDataPeserta(){
     }
     return $array;
 }
+
+
 
 // Fungsi Edit Peserta
 function editPeserta($id, $user_id, $group_id, $join_date, $status) {
@@ -448,6 +463,67 @@ function countRowsMaterial() {
     $row = mysqli_fetch_assoc($result);
     return $row['total_rows'];
 }
+
+function getDataPesertaFull(){
+    include "Database.php";
+    $result = mysqli_query($conn, "SELECT id, user_id, (SELECT name FROM users WHERE users.id = participants.user_id) as user_name FROM participants");
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    $array = [];
+    while ($participant = mysqli_fetch_array($result)) {
+        $array[] = $participant;
+    }
+    return $array;
+}
+
+
+function getTransaksiLengkap() {
+    include "Database.php"; // Assuming this file establishes the $conn variable for database connection
+
+    // Construct SQL query to fetch comprehensive transaction data
+    $query = "
+        SELECT 
+            t.id AS transaksi_id,
+            u.name AS nama_anggota,
+            g.name AS nama_kelompok,
+            t.amount AS jumlah,
+            t.transaction_date AS tanggal
+        FROM 
+            transactions t
+        INNER JOIN 
+            participants p ON t.participant_id = p.id
+        INNER JOIN 
+            users u ON p.user_id = u.id
+        INNER JOIN 
+            arisan a ON t.arisan_id = a.id
+        INNER JOIN 
+            groups g ON a.group_id = g.id
+    ";
+
+    // Execute the query
+    $result = mysqli_query($conn, $query);
+
+    // Check for errors in query execution
+    if (!$result) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    // Fetch data into an array
+    $transaksi = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $transaksi[] = $row;
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+
+    // Return the fetched transaction data
+    return $transaksi;
+}
+
+
 
 
 

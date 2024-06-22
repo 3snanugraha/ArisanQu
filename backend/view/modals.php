@@ -33,6 +33,15 @@
             </div>
           </div>
 
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="group_description">Total</label>
+            </div>
+            <div class="col-9">
+            <input type="text" class="form-control rounded-pill" name="total" required>
+            </div>
+          </div>
+
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
@@ -63,19 +72,33 @@
 
           <div class="row mt-2">
             <div class="col-3">
-              <label for="user_id">ID Pengguna</label>
+              <label for="user_id">Nama Pengguna</label>
             </div>
             <div class="col-9">
-              <input type="text" class="form-control rounded-pill" name="user_id" required>
+              <select class="form-control rounded-pill" name="user_id" required>
+                <?php
+                  $users = getDataPengguna();
+                  foreach ($users as $user) {
+                    echo "<option value='{$user['id']}'>{$user['name']}</option>";
+                  }
+                ?>
+              </select>
             </div>
           </div>
 
           <div class="row mt-2">
             <div class="col-3">
-              <label for="group_id">ID Kelompok</label>
+              <label for="group_id">Nama Kelompok</label>
             </div>
             <div class="col-9">
-              <input type="text" class="form-control rounded-pill" name="group_id" required>
+              <select class="form-control rounded-pill" name="group_id" required>
+                <?php
+                  $groups = getDataKelompok();
+                  foreach ($groups as $group) {
+                    echo "<option value='{$group['id']}'>{$group['name']}</option>";
+                  }
+                ?>
+              </select>
             </div>
           </div>
 
@@ -100,6 +123,15 @@
             </div>
           </div>
 
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="total">Total</label>
+            </div>
+            <div class="col-9">
+              <input type="text" class="form-control rounded-pill" name="total" required>
+            </div>
+          </div>
+
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
@@ -110,6 +142,7 @@
   </div>
 </div>
 <!-- End Modal Tambah Data Peserta -->
+
 
 <!-- Modal Tambah Data Pengguna -->
 <div class="modal fade" id="tambah-data-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -183,5 +216,92 @@
   </div>
 </div>
 <!-- End Modal Tambah Data Pengguna -->
+
+
+   <!-- Modal Tambah Transaksi -->
+   <div class="modal fade" id="tambah-transaksi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahTransaksiLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tambahTransaksiLabel">Tambah Transaksi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          <div class="d-flex justify-content-center">
+            <img class="img-fluid" width="120px" src="../view/assets/img/transaction.png" rel="icon">
+          </div>
+
+          <h6 class="text-center">Silahkan isi data dengan lengkap di bawah ini. </h6>
+          <hr>
+
+         
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="nama_anggota">Nama Anggota</label>
+            </div>
+            <div class="col-9">
+              <select class="form-control rounded-pill" name="nama_anggota" id="nama_anggota" required>
+                <option value="">Pilih Nama Anggota</option>
+                <?php
+                $users = getDataPengguna();
+                foreach ($users as $user) {
+                  echo "<option value='{$user['id']}'>{$user['name']}</option>";
+                }
+
+               
+                ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="group_id">Nama Kelompok</label>
+            </div>
+            <div class="col-9">
+              <select class="form-control rounded-pill" name="group_id" required>
+                <?php
+                  $groups = getDataKelompok();
+                  foreach ($groups as $group) {
+                    echo "<option value='{$group['id']}'>{$group['name']}</option>";
+                  }
+                ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="jumlah">Jumlah Pembayaran</label>
+            </div>
+            <div class="col-9">
+              <input type="number" class="form-control rounded-pill" name="jumlah" id="jumlah" required>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-3">
+              <label for="tanggal">Tanggal Pembayaran</label>
+            </div>
+            <div class="col-9">
+              <input type="date" class="form-control rounded-pill" name="tanggal" id="tanggal" required>
+            </div>
+          </div>
+
+          <hr>
+          <div class="mt-4 text-center">
+            <button class="btn btn-brand-primary rounded-pill" type="submit" name="tambah-transaksi">Simpan</button>
+            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Batalkan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal Tambah Transaksi -->
+
+
 
 
